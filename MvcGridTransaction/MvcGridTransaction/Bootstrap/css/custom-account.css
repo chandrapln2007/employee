@@ -1,0 +1,23 @@
+﻿.msg-error
+{
+    border:1px #d43f3a solid;  
+    color:#d43f3a; 
+    padding:5px;  
+    width:100%;
+}
+
+.msg-success
+{ 
+    border:1px #038303 solid;  
+    color:#038303; 
+    padding:5px;  
+    width:100%;
+}
+
+body
+{
+}
+#wrapper
+{
+    padding-left: 0px !important;
+}

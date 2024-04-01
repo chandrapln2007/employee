@@ -1,0 +1,150 @@
+﻿@using DevExpress.Web.Mvc;
+@using DevExpress.Web.Mvc.UI;
+@using MvcGridTransaction;
+@using MvcGridTransaction.Models;
+
+
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="https://tems.timas.com/TEMS/Content/Images/timas-icon.png" type="image/png" sizes="16x16">
+    <title>@ViewBag.Title</title>
+    <!--Start Devexpress-->
+    @*<link href="@Url.Content("~/Content/reset-min.css")" rel="stylesheet" type="text/css" />*@ @*add new*@
+    @Html.DevExpress().GetStyleSheets(
+        new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout, Theme = "DevEx" },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Editors, Theme = "DevEx" },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.HtmlEditor, Theme = "DevEx" },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.GridView, Theme = "DevEx" },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Chart, Theme = "DevEx" },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Report, Theme = "DevEx" }
+    )
+    <script src="@Url.Content("~/Scripts/jquery-1.9.1.min.js")"></script>
+    @*<script src="@Url.Content("~/Scripts/function_component_tems.js")"></script>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>*@
+
+    @Html.DevExpress().GetScripts(
+        new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+        new Script { ExtensionSuite = ExtensionSuite.HtmlEditor },
+        new Script { ExtensionSuite = ExtensionSuite.GridView },
+        new Script { ExtensionSuite = ExtensionSuite.Editors },
+        new Script { ExtensionSuite = ExtensionSuite.Chart },
+        new Script { ExtensionSuite = ExtensionSuite.Report }
+    )
+    @RenderSection("HeadScript", false)
+    <!--End Devexpress-->
+    <!-- Bootstrap Core CSS -->
+    <link href="@Url.Content("~/Bootstrap/css/bootstrap.min.css")" rel="stylesheet" />
+    <!-- Custom CSS -->
+
+    <link href="@Url.Content("~/Bootstrap/css/sb-admin.css")" rel="stylesheet" />
+    <!-- Morris Charts CSS -->
+    @*<link href="@Url.Content("~/Bootstrap/css/plugins/morris.css")" rel="stylesheet" />*@
+    <!-- Custom Fonts -->
+    <link href="@Url.Content("~/Bootstrap/font-awesome/css/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+    @*<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />*@
+    @*<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>*@
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script type="text/javascript" src="@Url.Content("~/Bootstrap/css/bootstrap.min.js")"></script>
+
+    <link href="@Url.Content("~/Content/customs.css")" rel="stylesheet">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            @*$("#sap-icon").click(function () {
+                document.location = '@Url.Action("Index", "Home")';
+            });*@
+            $('.tooltip-demo').tooltip({
+                selector: "[data-toggle=tooltip]",
+                container: "body"
+            })
+            $("[data-toggle=popover]")
+                .popover()
+        });
+    </script>
+</head>
+
+
+<body>
+    <div id="process-waiting"></div>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" id="NavToggle" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+                    <div class="brand">
+                        PT.AKASIA
+                    </div>
+                </a>
+            </div>
+            <!-- Top Menu Items -->
+            <ul class="nav navbar-right top-nav">
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-user"></i>
+
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href=""><i class="fa fa-gear fa-fw"></i>Settings</a>
+                        </li>
+
+                    </ul>
+                </li>
+
+            </ul>
+
+
+
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li @if (ViewBag.IsCurrentMenu == "DASHBOARD") { WriteLiteral("class=isactive"); }>
+                        <a href="@Url.Action("Index", "Home")"><i class="fa fa-fw fa-desktop"></i>&nbsp;Dashboard</a>
+                    </li>
+
+
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#MasterData"><i class="fa fa-fw fa-database"></i>&nbsp; Master Data<i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="MasterData" class="collapse">
+
+
+                            <li @if (ViewBag.IsCurrentMenu == "EMPLOYEE") { WriteLiteral("class=isactive"); }>
+                                <a href="@Url.Action("Index", "Employee")"><i class="fa fa-fw fa-cube"></i>&nbsp;Employee</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+
+
+        </nav>
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <div class="footer-area">Copyright © 2024 | Technical Test | PT. AKASIA | All Rights Reserved</div>
+</body>
+</html>

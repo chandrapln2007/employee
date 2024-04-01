@@ -1,0 +1,199 @@
+﻿body {
+    /*background: url(/Content/Images/bg-login.jpg) no-repeat center center fixed;*/
+     /*background: url('http://alfa.timas.com/timasisadmin/source/DLB-LIMA-Foto%20Udara%20(1)_1.jpg') no-repeat center center fixed;*/
+     /*background: url('http://alfa.timas.com/images/bg-banner.jpg') no-repeat center center fixed;*/        
+    background: url('../Content/Images/timas-ab.JPG') no-repeat center center fixed;   
+    background-size: cover;
+    margin: 0;
+}
+
+.frame-header { 
+    background-color: #003366;
+    box-shadow: inset 0 -9px 15px -12px #9198ea;
+    padding: 10px 30px; 
+} 
+
+.lbl-login {
+    background-color: #fff;
+    color: #000;
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-family: Arial;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.frame-input {
+    background-color: #fff;
+    padding: 20px;
+    color: #353535;
+    font-family: Arial;
+}
+
+.form-control-btn {
+    font-family: Arial;
+    outline: 0;
+    background: #214af1;
+    border: 1px solid #0734e5;
+    box-shadow: none;  
+    margin-top:5px;
+    padding:5px 10px;
+    font-size: 14px;
+    font-weight: 300;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 3px;
+    transition: all .3s; 
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+    .form-control-btn:hover {
+         background: #0734e5;
+    }
+
+.form-control-input {
+    outline: 0;
+    background: #fff;
+    border: 1px solid #acabab;
+    box-shadow: none;
+    font-size: 14px;
+    font-weight: 300;
+    color: #888;
+    border-radius: 3px;
+    transition: all .3s;
+    width: 90%;
+    padding: 5px;
+}
+
+.lnk-forgot a {
+    color: #214af1;
+    font-size:14px;
+    padding-left:10px;
+}
+
+/*/////////////////////////////////////////////////////////*/
+
+.tems-title {
+    color: #0734e5;
+    text-transform: uppercase;
+    text-align: center;
+    font-family: Calibri;
+    font-size: 60px;
+    font-weight: bold;
+    margin-top: -10px;
+}
+
+.tems-tag {
+    text-align: center;
+    color: #2a2ee1;
+    font-family: Calibri;
+    margin-top: -15px;
+    letter-spacing: 1px;
+    padding-bottom: 5px;
+}
+
+.img-login {
+    width: 400px;
+}
+
+.frame-center { 
+    /*margin: 0 auto;*/ 
+    margin-top: 120px;  
+    margin-left:30px;
+    width: 400px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 5px;
+    padding: 30px;
+    border:1px #75a6d8 solid;
+}
+
+.title-form {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.validation-summary-errors ul {
+    background-color: #f8c3c3;
+    border: 1px #fc9090 solid;
+    border-radius: 3px;
+    padding: 5px;
+    color: #e90505;
+    list-style-type: none;
+    text-align: center;
+    font-family: Arial;
+}
+
+.form-control {
+    outline: 0;
+    background: #fff;
+    border: 1px solid #acabab;
+    box-shadow: none;
+    height: 40px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    padding: 0 20px;
+    vertical-align: middle;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 50px;
+    color: #888;
+    border-radius: 3px;
+    transition: all .3s;
+    display: block;
+    width: 90%;
+}
+
+    .form-control:focus {
+        border: 1px solid #0734e5;
+    }
+
+.btn-signin {
+    font-family: Arial;
+    outline: 0;
+    background: #214af1;
+    border: 1px solid #0734e5;
+    box-shadow: none;
+    margin-right: 20px;
+    padding: 8px;
+    font-size: 18px;
+    font-weight: 300;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 3px;
+    transition: all .3s;
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+
+    .btn-signin:hover {
+        background: #0734e5;
+    }
+
+.frame-lnk {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.lnk-forgot-password {
+    text-decoration: none;
+    font-family: Arial;
+    font-size: 14px;
+}
+
+.footer {
+    background: #003366;
+    color: #fff;
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+    bottom: 0;
+    position: fixed;
+    font-family: Arial;
+    font-size: 12px;
+    letter-spacing: 1px;
+}

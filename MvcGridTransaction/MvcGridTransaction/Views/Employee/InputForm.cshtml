@@ -1,0 +1,156 @@
+﻿@model MvcGridTransaction.Models.EmployeeModels
+@using DevExpress.Web.Mvc
+@using DevExpress.Web.Mvc.UI
+@using DevExpress.Utils
+@using DevExpress.Web.ASPxEditors;
+@using MvcGridTransaction;
+@using System.Web.WebPages.Html;
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        /////////////////// START INPUT NUMBER 0-9 \\\\\\\\\\\\\\
+        //$("#cost_center").keydown(function (e) {
+        //    if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+        //        (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+        //        (e.keyCode >= 35 && e.keyCode <= 40)) {
+        //        return;
+        //    }
+        //    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+        //        e.preventDefault();
+        //    }
+        //});
+        ////////////////////// START SUBMIT \\\\\\\\\\\\\\\\\\\\\\\
+        $("#BtnSubmit").click(function () {
+            var isError = 0;
+            var msgError = "";
+           
+            var employeeid = $('#Employeeid').val();
+
+            var fullname = $('#Fullname').val();
+
+            var birthdate = Birthdate.GetValue();
+
+            var flag_edit = $('#flag_edit').val();
+           
+
+            if (fullname == "") {
+                isError = 1;
+                msgError += "- Please input full name. </br>";
+            }
+
+            if (isError == 1) {
+
+                $('#GlobalMessageError').show();
+                $('#GlobalMessageError').html(msgError);
+                $('html, body').animate({ scrollTop: 0 }, 'slow');
+            } else {
+
+               
+
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("BtnSubmitAction")',
+                    data: {
+                        employeeid: employeeid,
+                        fullname: fullname,
+                        birthdate: birthdate,
+                        flag_edit: flag_edit
+
+                    },
+                    dataType: 'json',
+                    beforeSend: function () {
+                        $("#process-waiting").show();
+                    },
+                    success: function (data) {
+                        var getReturn = data.ReturnProcess;
+                        if (getReturn == "Success") {
+                            document.location = '@Url.Action("Index")';
+                        } else {
+                            $('#GlobalMessageError').show('slow');
+                            $('#GlobalMessageError').html(getReturn);
+                            $('html, body').animate({ scrollTop: 0 }, 'slow');
+                        }
+                    },
+                    complete: function (data) {
+                        $("#process-waiting").hide();
+                    }
+                });
+            }
+        });
+        //////////////////// END SUBMIT  \\\\\\\\\\\\\\\\\\\\\\\\
+    });
+
+
+    function OnDateChanged() {
+        //var d = new Date();
+        //var n = d.getDate();
+        //var Birthdate = Birthdate.GetDate();
+
+        
+    }
+
+
+
+
+    function OnClickCancel(s, e) {
+        document.location = '@Url.Action("Index")';
+
+
+
+    }
+</script>
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="GlobalMessageError" class="frame-error"></div>
+            @Html.TextBoxFor(m => m.flag_edit, new { @class = "form-control hide" })
+            @Html.TextBoxFor(m => m.Employeeid, new { @class = "form-control hide" })
+
+        </div>
+        <div class="col-lg-7">
+
+            <div class="form-group mrg-btm">
+                <label class="control-label col-sm-4">Full Name</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(m => m.Fullname, new { @class = "form-control" })
+                </div>
+            </div>
+
+
+            <div class="form-group mrg-btm">
+                <label class="control-label col-sm-4"> Birth Date </label>
+                <div class="col-sm-8">
+                    @*@Html.TextBoxFor(m => m.received_date, new { @class = "form-control", disabled = "" })*@
+                    @Html.DevExpress().DateEdit(
+                    settings =>
+                    {
+                        settings.Name = "Birthdate";
+                        settings.Width = 180;
+                        settings.Height = 30;
+                        settings.Properties.DisplayFormatString = "dd-MMM-yy";
+                        settings.Properties.EditFormatString = "dd-MMM-yy";
+                        settings.Properties.TimeSectionProperties.Visible = false;
+                        //settings.ReadOnly = true;
+                        settings.ControlStyle.BackColor = System.Drawing.Color.LightSlateGray;
+                        settings.ControlStyle.ForeColor = System.Drawing.Color.White;
+                        settings.Properties.TimeSectionProperties.TimeEditProperties.EditFormat = EditFormat.Custom;
+                        settings.Properties.TimeSectionProperties.TimeEditProperties.EditFormatString = "HH:mm:ss";
+                        settings.Properties.ClientSideEvents.DateChanged = "OnDateChanged";
+                    }).Bind(Model.Birthdate).GetHtml()
+
+
+
+
+                </div>
+            </div>
+
+           
+
+            <button type="button" class="btn btn-primary" id="BtnSubmit">Submit</button>
+            <button type="button" onclick="OnClickCancel();" class="btn btn-default">Cancel</button>
+        </div>
+    </div>
+}

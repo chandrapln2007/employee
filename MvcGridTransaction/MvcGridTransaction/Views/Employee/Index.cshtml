@@ -1,0 +1,133 @@
+﻿@model MvcGridTransaction.Models.EmployeeModels
+@{
+    ViewBag.Title = "Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using DevExpress.Web.Mvc
+@using DevExpress.Web.Mvc.UI
+@using DevExpress.Utils
+@using DevExpress.Web.ASPxClasses
+@using DevExpress.Web.ASPxEditors
+@using DevExpress.Web.ASPxTabControl
+@using DevExpress.Web.ASPxPopupControl
+@using System.Web.UI.WebControls;
+
+@section HeadScript {
+    <script type="text/javascript">
+            $(document).ready(function () {
+                $(".alert-danger").hide();
+                $('.alert').delay(3000).fadeOut('slow');
+            });
+
+            function GotoAddPage(s, e) {
+                document.location = '@Url.Action("Add")';
+            }
+
+            function OnClickEdit(s, e, GetId) {
+                document.location = '@Url.Action("Edit")' + "?id=" + GetId;
+            }
+           function OnClickDelete(s, e, GetId) {
+                dlgDeleteConfirmation.Show();
+           }
+
+           function OnDeleteConfirmed(s, e) {
+               var GetId = MyGridView.GetRowKey(MyGridView.GetFocusedRowIndex());
+               $.ajax({
+                   type: 'POST',
+                   url: '@Url.Action("OnDeleteAction")',
+                   data: {
+                       GetId: GetId
+                   },
+                   dataType: 'json',
+                   beforeSend: function () {
+                       $("#process-waiting").show();
+                   },
+                   success: function (data) {
+                       dlgDeleteConfirmation.Hide();
+                       $(".alert-danger").show();
+                       $('.alert-danger').delay(3000).fadeOut('slow');
+                       MyGridView.Refresh();
+                   },
+                   complete: function (data) {
+                       $("#process-waiting").hide();
+                   }
+               });
+           }
+
+
+
+    </script>
+}
+
+<div class="frame-navigation">
+    <a class="nav-noactive"><i class="glyphicon glyphicon-th-large"></i>Employee</a>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default panel-main">
+            <div class="panel-body">
+
+                <div class="tooltip-demo">
+                    <button type="button" onclick="GotoAddPage();" class="btn btn-default addnew" data-toggle="tooltip" data-placement="left" title="Add New">Add New</button>
+                </div>
+
+
+                @if (ViewBag.MessageSuccess != "")
+                {
+                    @Html.Raw(ViewBag.MessageSuccess)
+                }
+
+                <div class="table-responsive">
+                    @Html.Partial("Grid")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "dlgDeleteConfirmation";
+        settings.Width = 300;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.HeaderText = "Delete";
+        settings.Modal = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.SetContent(() =>
+        {
+            ViewContext.Writer.Write("<div class=\"dialog-text\">");
+            ViewContext.Writer.Write("Are you sure want to delete the record?");
+            ViewContext.Writer.Write("</div>");
+            ViewContext.Writer.Write("<div class=\"dialog-buttons\">");
+            ViewContext.Writer.Write("<div style=\"float:right\">");
+            Html.DevExpress().Button(
+                buttonSettings =>
+                {
+                    buttonSettings.Name = "btnDeleteOk";
+                    buttonSettings.ControlStyle.CssClass = "button";
+                    buttonSettings.Width = 80;
+                    buttonSettings.Text = "OK";
+                    buttonSettings.ClientSideEvents.Click = "OnDeleteConfirmed";
+                }
+            )
+            .Render();
+            Html.DevExpress().Button(
+                buttonSettings =>
+                {
+                    buttonSettings.Name = "btnDeleteCancel";
+                    buttonSettings.ControlStyle.CssClass = "button";
+                    buttonSettings.Width = 80;
+                    buttonSettings.Text = "Cancel";
+                    buttonSettings.ClientSideEvents.Click = "function(s, e){ dlgDeleteConfirmation.Hide(); }";
+                }
+            )
+            .Render();
+            ViewContext.Writer.Write("</div>");
+            ViewContext.Writer.Write("</div>");
+        });
+    }).GetHtml()

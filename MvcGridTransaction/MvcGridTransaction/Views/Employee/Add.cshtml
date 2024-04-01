@@ -1,0 +1,37 @@
+﻿@model MvcGridTransaction.Models.EmployeeModels
+@{
+    ViewBag.Title = "Add Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using DevExpress.Web.Mvc
+@using DevExpress.Web.Mvc.UI
+@using DevExpress.Utils
+@using DevExpress.Web.ASPxClasses
+@using DevExpress.Web.ASPxEditors
+@using DevExpress.Web.ASPxTabControl
+@using DevExpress.Web.ASPxPopupControl
+@using System.Web.UI.WebControls;
+@using MvcGridTransaction;
+
+@section HeadScript {
+    <script type="text/javascript">
+        $(document).ready(function () {
+        });
+    </script>
+}
+
+<div class="frame-navigation">
+    <a href="@Url.Action("Index", "Employee")" class="nav-noactive"><i class="glyphicon glyphicon-th-large"></i> Employee</a>
+    <span>&raquo;</span>
+    <a class="nav-active">Create</a>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default panel-main">
+            <div class="panel-body">
+                @Html.Partial("InputForm")
+            </div>
+        </div>
+    </div>
+</div>

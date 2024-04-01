@@ -1,0 +1,52 @@
+﻿@media (min-width:100px) and (max-width: 600px) {
+    .mrg-btm {
+        padding-bottom: 0px !Important;
+        margin-left: -20px;
+        margin-right: -20px;
+    }
+
+    .box-link {
+        margin: 10px;
+        text-align: center;
+        border: 1px #ccc solid;
+        border-radius: 5px;
+    }
+
+    .lnk-preview {
+        border: none;
+    }
+
+    .iscanvas {
+        width: 100% !Important;
+    }
+
+    .btnform {
+        width: 75px !Important;
+    }
+
+    .forminpanel {
+        margin: 0px !Important;
+    }
+
+    .sign01, .sign02, .sign03 {
+        font-size: 2.5em;
+    }
+
+    .sign04 {
+        font-size: 2.5em;
+        width: 100%;
+    }
+
+    .sign05 {
+        font-size: 1.5em;
+    }
+
+    .frame-adopt {
+        margin: 0px !Important;
+    }
+
+    .popup-preview {
+        width: 85% !Important;
+    }  
+}
+

@@ -1,0 +1,117 @@
+﻿@using DevExpress.Web.Mvc
+@using DevExpress.Web.Mvc.UI
+@using DevExpress.Web.ASPxGridView
+@using DevExpress.Web.ASPxProgressBar
+@using DevExpress.Web.ASPxEditors
+@using DevExpress.Utils
+@using System.Web.UI.WebControls
+
+@Html.DevExpress().GridView(
+    settings =>
+    {
+        settings.Name = "MyGridView";
+        settings.CallbackRouteValues = new { Controller = "Employee", Action = "Grid" };
+        settings.Columns.Add(col =>
+        {
+            col.Caption = "No";
+            col.FieldName = "Employeeid";
+            col.Width = 5;
+            col.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+            col.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            col.Settings.AllowAutoFilter = DefaultBoolean.False;
+            col.Settings.AllowHeaderFilter = DefaultBoolean.False;
+            col.Settings.AllowSort = DefaultBoolean.False;
+            col.SetDataItemTemplateContent(c =>
+            {
+                ViewContext.Writer.WriteLine((c.ItemIndex + 1).ToString());
+            });
+        });
+
+        settings.Columns.Add(col =>
+        {
+            col.Caption = "Employee id";
+            col.FieldName = "Employeeid";
+            col.Width = 10;
+            col.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            col.Settings.AllowAutoFilter = DefaultBoolean.True;
+            col.Settings.AllowSort = DefaultBoolean.True;
+            col.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        });
+
+        settings.Columns.Add(col =>
+        {
+            col.Caption = "Full Name";
+            col.FieldName = "Fullname";
+            col.Width = 10;
+            col.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            col.Settings.AllowAutoFilter = DefaultBoolean.True;
+            col.Settings.AllowSort = DefaultBoolean.True;
+            col.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        });
+
+        settings.Columns.Add(col =>
+        {
+            col.Caption = "Birth Date";
+            col.FieldName = "Birthdate";
+            col.Width = 10;
+            col.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            col.Settings.AllowAutoFilter = DefaultBoolean.True;
+            col.Settings.AllowSort = DefaultBoolean.True;
+            col.PropertiesEdit.DisplayFormatString = "dd-MMM-yy";
+            col.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        });
+
+        settings.Columns.Add(col =>
+        {
+            col.Caption = "# Action #";
+            col.Width = 10;
+            col.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+            col.Settings.AllowAutoFilter = DefaultBoolean.False;
+            col.Settings.AllowSort = DefaultBoolean.False;
+            col.SetDataItemTemplateContent(c =>
+            {
+                string GetId = DataBinder.Eval(c.DataItem, "Employeeid").ToString();
+                DevExpressHelper.WriteLineToResponse("<table align=center><tr><td>");
+                Html.DevExpress().Button(settingsBtn =>
+                {
+                    settingsBtn.Name = "btnEdit" + c.KeyValue;
+                    settingsBtn.Text = "";
+                    settingsBtn.ToolTip = "Edit";
+                    settingsBtn.Images.Image.Url = "~/Content/Images/edit.png";
+                    settingsBtn.ClientSideEvents.Click = string.Format("function(s, e) {{ OnClickEdit(s, e, '{0}'); }}", GetId);
+                }).Render();
+               
+                DevExpressHelper.WriteLineToResponse("</td><td>&nbsp;</td><td>");
+                Html.DevExpress().Button(settingsBtn =>
+                {
+                    settingsBtn.Name = "btnDelete" + c.KeyValue;
+                    settingsBtn.Text = "";
+                    settingsBtn.ToolTip = "Delete";
+                    settingsBtn.Images.Image.Url = "~/Content/Images/delete.png";
+                    settingsBtn.ClientSideEvents.Click = string.Format("function(s, e) {{ OnClickDelete(s, e, '{0}'); }}", GetId);
+                }).Render();
+               
+                
+                DevExpressHelper.WriteLineToResponse("</td></tr></table>");
+            });
+        });
+        settings.Width = 400;
+        settings.Styles.TitlePanel.HorizontalAlign = HorizontalAlign.Left;
+        settings.Styles.AlternatingRow.Enabled = DefaultBoolean.True;
+        settings.Settings.ShowHeaderFilterButton = true;
+        settings.SettingsPager.Position = PagerPosition.Bottom;
+        settings.SettingsPager.FirstPageButton.Visible = true;
+        settings.SettingsPager.LastPageButton.Visible = true;
+        settings.SettingsPager.PageSizeItemSettings.Visible = true;
+        settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "5", "10", "20", "50" };
+        settings.SettingsBehavior.AllowFocusedRow = true;
+        settings.KeyFieldName = "Employeeid";
+        settings.Settings.ShowFilterRow = true;
+        settings.Settings.ShowFilterRowMenu = true;
+
+        settings.PreRender = (sender, e) =>
+        {
+            ASPxGridView grid = (ASPxGridView)sender;
+            grid.FocusedRowIndex = 0;
+        };
+    }).Bind(ViewBag.DataList).GetHtml()
